@@ -1,0 +1,100 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "dreamShaper8.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "stop_at_clip_layer": -2
+    },
+    "class_type": "CLIPSetLastLayer"
+  },
+  "3": {
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "1girl, pink sweater, white background",
+      "token_normalization": "mean",
+      "weight_interpretation": "A1111"
+    },
+    "class_type": "BNK_CLIPTextEncodeAdvanced"
+  },
+  "4": {
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "(worst quality:2), (low quality:2), (normal quality:2), lowres, watermark",
+      "token_normalization": "mean",
+      "weight_interpretation": "A1111"
+    },
+    "class_type": "BNK_CLIPTextEncodeAdvanced"
+  },
+  "5": {
+    "inputs": {
+      "width": 512,
+      "height": 768,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "6": {
+    "inputs": {
+      "seed": 408337996593045,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "3",
+        0
+      ],
+      "negative": [
+        "4",
+        0
+      ],
+      "latent_image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "KSampler"
+  },
+  "7": {
+    "inputs": {
+      "samples": [
+        "6",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "8": {
+    "inputs": {
+      "filename_prefix": "sample",
+      "images": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  }
+}
